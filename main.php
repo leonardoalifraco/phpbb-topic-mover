@@ -47,7 +47,7 @@ foreach ($forumsToMove as $forumToMove) {
             $insertedPostId = insertPostInTargetTopic($connTarget,
                 $config['target']['table_prefix'],
                 $postFromSourceTopic,
-                $insertedTopicId
+                $insertedTopicId,
                 $forumToMove['target_forum_id']);
 
             $log->addDebug('Post ' . $postFromSourceTopic['post_id'] 
