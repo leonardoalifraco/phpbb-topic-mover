@@ -30,7 +30,7 @@ define('INSERT_POST_IN_TARGET_QUERY', 'INSERT INTO `' . TABLE_PREFIX_SYMBOL . 'p
         `enable_smilies`, `enable_magic_url`, `enable_sig`, `post_username`, `post_subject`,
         `post_text`, `post_checksum`, `post_attachment`, `bbcode_bitfield`, `bbcode_uid`,
         `post_postcount`, `post_edit_time`, `post_edit_reason`, `post_edit_user`, `post_edit_count`,
-         `post_edit_locked`)
+        `post_edit_locked`)
     VALUES (
         :topic_id, :forum_id, :poster_id, :icon_id,
         :poster_ip, :post_time, :post_approved, :post_reported, :enable_bbcode,

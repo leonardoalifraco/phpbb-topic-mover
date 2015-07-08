@@ -70,5 +70,34 @@ function insertTopicInTargetForum($conn, $tablePrefix, $topic, $targetForumId) {
 }
 
 function insertPostInTargetTopic($conn, $tablePrefix, $post, $targetTopicId) {
-    
+    $sql = INSERT_POST_IN_TARGET_QUERY;
+    $sql = str_replace(TABLE_PREFIX_SYMBOL, $tablePrefix, $sql);
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue('topic_id', $targetTopicId);
+    $stmt->bindValue('forum_id', $post['forum_id']);
+    $stmt->bindValue('poster_id', $post['poster_id']);
+    $stmt->bindValue('icon_id', $post['icon_id']);
+    $stmt->bindValue('poster_ip', $post['poster_ip']);
+    $stmt->bindValue('post_time', $post['post_time']);
+    $stmt->bindValue('post_approved', $post['post_approved']);
+    $stmt->bindValue('post_reported', $post['post_reported']);
+    $stmt->bindValue('enable_bbcode', $post['enable_bbcode']);
+    $stmt->bindValue('enable_smilies', $post['enable_smilies']);
+    $stmt->bindValue('enable_magic_url', $post['enable_magic_url']);
+    $stmt->bindValue('enable_sig', $post['enable_sig']);
+    $stmt->bindValue('post_username', $post['post_username']);
+    $stmt->bindValue('post_subject', $post['post_subject']);
+    $stmt->bindValue('post_text', $post['post_text']);
+    $stmt->bindValue('post_checksum', $post['post_checksum']);
+    $stmt->bindValue('post_attachment', $post['post_attachment']);
+    $stmt->bindValue('bbcode_bitfield', $post['bbcode_bitfield']);
+    $stmt->bindValue('bbcode_uid', $post['bbcode_uid']);
+    $stmt->bindValue('post_postcount', $post['post_postcount']);
+    $stmt->bindValue('post_edit_time', $post['post_edit_time']);
+    $stmt->bindValue('post_edit_reason', $post['post_edit_reason']);
+    $stmt->bindValue('post_edit_user', $post['post_edit_user']);
+    $stmt->bindValue('post_edit_count', $post['post_edit_count']);
+    $stmt->bindValue('post_edit_locked', $post['post_edit_locked']);
+    $stmt->execute();
+    return $conn->lastInsertId();
 }

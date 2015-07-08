@@ -1,6 +1,7 @@
 <?php
 
 require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/init.php';
 require __DIR__ . '/config.php';
 require __DIR__ . '/functions.php';
 require __DIR__ . '/querys.php';
@@ -34,16 +35,26 @@ foreach ($forumsToMove as $forumToMove) {
             $config['source']['table_prefix'],
             $topicFromSourceForum['topic_id']);
 
+        $log->addDebug('Topic ' . $topicFromSourceForum['topic_id']
+            . ' of source forum ' . $forumToMove['origin_forum_id']
+            . ' inserted with id ' . $insertedTopicId
+            . ' on target forum ' . $forumToMove['target_forum_id'] . '.');
+
         // foreach post on the source database
         foreach ($postsFromSourceTopic as $postFromSourceTopic) {
 
             // insert the post on the target database associated with the new inserted topic
-            insertPostInTargetTopic($connTarget,
+            $insertedPostId = insertPostInTargetTopic($connTarget,
                 $config['target']['table_prefix'],
                 $postFromSourceTopic,
                 $insertedTopicId);
 
-            
+            $log->addDebug('Post ' . $postFromSourceTopic['post_id'] 
+                . ' from topic ' . $topicFromSourceForum['topic_id']
+                . ' of source forum ' . $forumToMove['origin_forum_id']
+                . ' inserted with id ' . $insertedPostId
+                . ' on topic ' . $insertedTopicId
+                . ' from target forum ' . $forumToMove['target_forum_id'] . '.');
         }
     }
 }
