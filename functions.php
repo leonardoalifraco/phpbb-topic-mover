@@ -69,12 +69,12 @@ function insertTopicInTargetForum($conn, $tablePrefix, $topic, $targetForumId) {
     return $conn->lastInsertId();
 }
 
-function insertPostInTargetTopic($conn, $tablePrefix, $post, $targetTopicId) {
+function insertPostInTargetTopic($conn, $tablePrefix, $post, $targetTopicId, $targetForumId) {
     $sql = INSERT_POST_IN_TARGET_QUERY;
     $sql = str_replace(TABLE_PREFIX_SYMBOL, $tablePrefix, $sql);
     $stmt = $conn->prepare($sql);
     $stmt->bindValue('topic_id', $targetTopicId);
-    $stmt->bindValue('forum_id', $post['forum_id']);
+    $stmt->bindValue('forum_id', $targetForumId);
     $stmt->bindValue('poster_id', $post['poster_id']);
     $stmt->bindValue('icon_id', $post['icon_id']);
     $stmt->bindValue('poster_ip', $post['poster_ip']);

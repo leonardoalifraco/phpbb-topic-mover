@@ -9,12 +9,12 @@ require __DIR__ . '/querys.php';
 $connSource = createConnection($config['source']['connection']);
 $connTarget = createConnection($config['target']['connection']);
 
-$forumsToMove = [
-    [ 'origin_forum_id' => 15, 'target_forum_id' => 59 ], // anticonceptivos
-    [ 'origin_forum_id' => 16, 'target_forum_id' => 60 ], // ginecología
-    [ 'origin_forum_id' => 4, 'target_forum_id' => 61 ], // dietas, como bajar de peso
-    [ 'origin_forum_id' => 14, 'target_forum_id' => 62 ], // cirugia estética me animo
-];
+$forumsToMove = array(
+    array('origin_forum_id' => 15, 'target_forum_id' => 59), // anticonceptivos
+    array('origin_forum_id' => 16, 'target_forum_id' => 60), // ginecología
+    array('origin_forum_id' => 4, 'target_forum_id' => 61 ), // dietas, como bajar de peso
+    array('origin_forum_id' => 14, 'target_forum_id' => 62 ), // cirugia estética me animo
+);
 
 foreach ($forumsToMove as $forumToMove) {
 
@@ -47,7 +47,8 @@ foreach ($forumsToMove as $forumToMove) {
             $insertedPostId = insertPostInTargetTopic($connTarget,
                 $config['target']['table_prefix'],
                 $postFromSourceTopic,
-                $insertedTopicId);
+                $insertedTopicId
+                $forumToMove['target_forum_id']);
 
             $log->addDebug('Post ' . $postFromSourceTopic['post_id'] 
                 . ' from topic ' . $topicFromSourceForum['topic_id']

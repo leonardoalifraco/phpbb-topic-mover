@@ -44,7 +44,7 @@ define('UPDATE_TOPIC_FIRST_POST_ID_QUERY', 'UPDATE ' . TABLE_PREFIX_SYMBOL . 'to
         topic_first_post_id = :topic_first_post_id
     WHERE topic_id = :topic_id');
 
-define('UPDATE_TOPIC_LAST_POST_ID_QUERY', 'UPDATE ' .TABLE_PREFIX_SYMBOL . 'topics
+define('UPDATE_TOPIC_LAST_POST_ID_QUERY', 'UPDATE ' . TABLE_PREFIX_SYMBOL . 'topics
     SET 
         topic_last_post_id = :topic_last_post_id
     WHERE topic_id = :topic_id');
