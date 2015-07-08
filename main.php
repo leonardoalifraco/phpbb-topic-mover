@@ -17,12 +17,20 @@ $forumsToMove = [
 
 foreach ($forumsToMove as $forumToMove) {
 
-    $topicsFromForum = getAllTopicsFromForum($connOrigin, 
+    $topicsFromSourceForum = getAllTopicsFromForum($connOrigin, 
         $config['source']['table_prefix'],
         $forumToMove['origin_forum_id']);
 
-    echo $forumToMove['origin_forum_id'] . ' has ' . count($topicsFromForum) . ' topics.' . PHP_EOL;
+    foreach ($topicsFromSourceForum as $topicFromSourceForum) {
 
+        $insertedTopicId = insertTopicInTargetForum($connTarget,
+            $config['target']['table_prefix'],
+            $topicFromSourceForum,
+            $forumToMove['target_forum_id']);
+
+        echo 'Se ha insertado con Id ' . $insertedTopicId . ' el viejo topic con Id ' . $topicFromSourceForum['topic_id'] . PHP_EOL;
+        
+    }
     // 1) Obtener todos los topics y bajarlos a un array
     // 2) Topic por topic, 
 }
