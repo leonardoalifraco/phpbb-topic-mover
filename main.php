@@ -5,7 +5,7 @@ require __DIR__ . '/config.php';
 require __DIR__ . '/functions.php';
 require __DIR__ . '/querys.php';
 
-$connOrigin = createConnection($config['source']['connection']);
+$connSource = createConnection($config['source']['connection']);
 $connTarget = createConnection($config['target']['connection']);
 
 $forumsToMove = [
@@ -17,22 +17,35 @@ $forumsToMove = [
 
 foreach ($forumsToMove as $forumToMove) {
 
-    $topicsFromSourceForum = getAllTopicsFromForum($connOrigin, 
+    $topicsFromSourceForum = getAllTopicsFromForum($connSource, 
         $config['source']['table_prefix'],
         $forumToMove['origin_forum_id']);
 
     foreach ($topicsFromSourceForum as $topicFromSourceForum) {
 
+        // insert the topic on the target database
         $insertedTopicId = insertTopicInTargetForum($connTarget,
             $config['target']['table_prefix'],
             $topicFromSourceForum,
             $forumToMove['target_forum_id']);
 
-        echo 'Se ha insertado con Id ' . $insertedTopicId . ' el viejo topic con Id ' . $topicFromSourceForum['topic_id'] . PHP_EOL;
-        
+        // retrieve the topic's post from the source database
+        $postsFromSourceTopic = getAllPostsFromTopic($connSource,
+            $config['source']['table_prefix'],
+            $topicFromSourceForum['topic_id']);
+
+        // foreach post on the source database
+        foreach ($postsFromSourceTopic as $postFromSourceTopic) {
+
+            // insert the post on the target database associated with the new inserted topic
+            insertPostInTargetTopic($connTarget,
+                $config['target']['table_prefix'],
+                $postFromSourceTopic,
+                $insertedTopicId);
+
+            
+        }
     }
-    // 1) Obtener todos los topics y bajarlos a un array
-    // 2) Topic por topic, 
 }
 
 

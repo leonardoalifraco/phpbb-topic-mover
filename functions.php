@@ -18,6 +18,15 @@ function getAllTopicsFromForum($conn, $tablePrefix, $forumId) {
     return $stmt->fetchAll();
 }
 
+function getAllPostsFromTopic($conn, $tablePrefix, $topicId) {
+    $sql = GET_POSTS_FROM_SOURCE_QUERY;
+    $sql = str_replace(TABLE_PREFIX_SYMBOL, $tablePrefix, $sql);
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue('topic_id', $topicId);
+    $stmt->execute();
+    return $stmt->fetchAll();
+}
+
 function insertTopicInTargetForum($conn, $tablePrefix, $topic, $targetForumId) {
     $sql = INSERT_TOPIC_IN_TARGET_QUERY;
     $sql = str_replace(TABLE_PREFIX_SYMBOL, $tablePrefix, $sql);
@@ -58,4 +67,8 @@ function insertTopicInTargetForum($conn, $tablePrefix, $topic, $targetForumId) {
     $stmt->bindValue('topic_url', $topic['topic_url']);
     $stmt->execute();
     return $conn->lastInsertId();
+}
+
+function insertPostInTargetTopic($conn, $tablePrefix, $post, $targetTopicId) {
+    
 }
