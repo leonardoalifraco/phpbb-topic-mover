@@ -55,6 +55,22 @@ foreach ($forumsToMove as $forumToMove) {
                 . ' inserted with id ' . $insertedPostId
                 . ' on topic ' . $insertedTopicId
                 . ' from target forum ' . $forumToMove['target_forum_id'] . '.');
+
+            // update topic_first_post_id
+            if ($postFromSourceTopic['post_id'] == $topicFromSourceForum['topic_first_post_id']) {
+                updateTopicFirstPostId($connTarget,
+                    $config['target']['table_prefix'],
+                    $insertedTopicId,
+                    $insertedPostId);
+            }
+
+            // update topic_last_post_id
+            if ($postFromSourceTopic['post_id'] == $topicFromSourceForum['topic_last_post_id']) {
+                updateTopicLastPostId($connTarget,
+                    $config['target']['table_prefix'],
+                    $insertedTopicId,
+                    $insertedPostId);
+            }
         }
     }
 }

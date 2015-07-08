@@ -101,3 +101,21 @@ function insertPostInTargetTopic($conn, $tablePrefix, $post, $targetTopicId) {
     $stmt->execute();
     return $conn->lastInsertId();
 }
+
+function updateTopicFirstPostId($conn, $tablePrefix, $topicId, $postId) {
+    $sql = UPDATE_TOPIC_FIRST_POST_ID_QUERY;
+    $sql = str_replace(TABLE_PREFIX_SYMBOL, $tablePrefix, $sql);
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue('topic_first_post_id', $postId);
+    $stmt->bindValue('topic_id', $topicId);
+    $stmt->execute();
+}
+
+function updateTopicLastPostId($conn, $tablePrefix, $topicId, $postId) {
+    $sql = UPDATE_TOPIC_LAST_POST_ID_QUERY;
+    $sql = str_replace(TABLE_PREFIX_SYMBOL, $tablePrefix, $sql);
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue('topic_last_post_id', $postId);
+    $stmt->bindValue('topic_id', $topicId);
+    $stmt->execute();
+}
