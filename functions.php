@@ -3,13 +3,15 @@
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
 
-function createConnection($params) {
+function createConnection($params)
+{
     $config = new Configuration();
     $conn = DriverManager::getConnection($params, $config);
     return $conn;
 }
 
-function getAllTopicsFromForum($conn, $tablePrefix, $forumId) {
+function getAllTopicsFromForum($conn, $tablePrefix, $forumId)
+{
     $sql = GET_TOPICS_FROM_SOURCE_QUERY;
     $sql = str_replace(TABLE_PREFIX_SYMBOL, $tablePrefix, $sql);
     $stmt = $conn->prepare($sql);
@@ -18,7 +20,8 @@ function getAllTopicsFromForum($conn, $tablePrefix, $forumId) {
     return $stmt->fetchAll();
 }
 
-function getAllPostsFromTopic($conn, $tablePrefix, $topicId) {
+function getAllPostsFromTopic($conn, $tablePrefix, $topicId)
+{
     $sql = GET_POSTS_FROM_SOURCE_QUERY;
     $sql = str_replace(TABLE_PREFIX_SYMBOL, $tablePrefix, $sql);
     $stmt = $conn->prepare($sql);
@@ -27,7 +30,8 @@ function getAllPostsFromTopic($conn, $tablePrefix, $topicId) {
     return $stmt->fetchAll();
 }
 
-function insertTopicInTargetForum($conn, $tablePrefix, $topic, $targetForumId) {
+function insertTopicInTargetForum($conn, $tablePrefix, $topic, $targetForumId)
+{
     $sql = INSERT_TOPIC_IN_TARGET_QUERY;
     $sql = str_replace(TABLE_PREFIX_SYMBOL, $tablePrefix, $sql);
     $stmt = $conn->prepare($sql);
@@ -69,7 +73,8 @@ function insertTopicInTargetForum($conn, $tablePrefix, $topic, $targetForumId) {
     return $conn->lastInsertId();
 }
 
-function insertPostInTargetTopic($conn, $tablePrefix, $post, $targetTopicId, $targetForumId) {
+function insertPostInTargetTopic($conn, $tablePrefix, $post, $targetTopicId, $targetForumId)
+{
     $sql = INSERT_POST_IN_TARGET_QUERY;
     $sql = str_replace(TABLE_PREFIX_SYMBOL, $tablePrefix, $sql);
     $stmt = $conn->prepare($sql);
@@ -102,7 +107,8 @@ function insertPostInTargetTopic($conn, $tablePrefix, $post, $targetTopicId, $ta
     return $conn->lastInsertId();
 }
 
-function updateTopicFirstPostId($conn, $tablePrefix, $topicId, $postId) {
+function updateTopicFirstPostId($conn, $tablePrefix, $topicId, $postId)
+{
     $sql = UPDATE_TOPIC_FIRST_POST_ID_QUERY;
     $sql = str_replace(TABLE_PREFIX_SYMBOL, $tablePrefix, $sql);
     $stmt = $conn->prepare($sql);
@@ -111,7 +117,8 @@ function updateTopicFirstPostId($conn, $tablePrefix, $topicId, $postId) {
     $stmt->execute();
 }
 
-function updateTopicLastPostId($conn, $tablePrefix, $topicId, $postId) {
+function updateTopicLastPostId($conn, $tablePrefix, $topicId, $postId)
+{
     $sql = UPDATE_TOPIC_LAST_POST_ID_QUERY;
     $sql = str_replace(TABLE_PREFIX_SYMBOL, $tablePrefix, $sql);
     $stmt = $conn->prepare($sql);
